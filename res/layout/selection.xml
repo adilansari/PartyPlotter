@@ -4,9 +4,10 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              android:background="#303040" >
+              >
 
 	<TextView
+	    android:id="@+id/username"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="10dp"
@@ -15,4 +16,13 @@
 	    android:textSize="18sp"
 	    android:text="@string/welcome_message"/>
     
+	<TextView
+	    android:id="@+id/reponseView"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:layout_gravity="center"
+	    android:textColor="#333"
+	    android:textSize="18sp"
+	    android:text="response here"/>
 </LinearLayout>

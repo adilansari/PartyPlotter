@@ -3,22 +3,24 @@ package com.in.party;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.app.Activity;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
 
 public class MainActivity extends Activity {
 	
-	private boolean isResumed = false;
+	private boolean isResumed;
+	private static final String TAG = "com.in.party"; 
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("Himank", "Reached inside oncreate");
-        uiHelper = new UiLifecycleHelper(this, callback);
+        Log.d(TAG, "Reached inside oncreate");
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
 	}
@@ -26,15 +28,18 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        uiHelper.onResume();
+        Log.d(TAG, "Inside OnResume");
         isResumed = true;
+        uiHelper.onResume();
+        
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
+        Log.d(TAG, "Inside OnPause");
         isResumed = false;
+        uiHelper.onPause();
     }
     
     @Override
@@ -57,19 +62,12 @@ public class MainActivity extends Activity {
     
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         // Only make changes if the activity is visible
-        if (isResumed) {
-            if (state.isOpened()) {
-                // If the session state is open:
-                // Show the authenticated fragment
-                //showFragment(SELECTION, false);
-            	Log.d("Himank", "Reached inside onsession state change");
-            	Intent intent = new Intent(this, SelectionPreference.class);
-                startActivity(intent);
-            } else if (state.isClosed()) {
-                // If the session state is closed:
-                // Show the login fragment
-                //showFragment(SPLASH, false);
-            }
+    	if (isResumed && state.isOpened()) {
+    		// If the session state is open:
+            // Show the authenticated fragment
+            //showFragment(SELECTION, false);
+            Intent intent = new Intent(this, SelectionPreference.class);
+            startActivity(intent);
         }
     }
     
@@ -79,10 +77,9 @@ public class MainActivity extends Activity {
         @Override
         public void call(Session session, 
                 SessionState state, Exception exception) {
-        	 Log.d("Himank", "Reached inside callback");
-        	onSessionStateChange(session, state, exception);
+        	 Log.d(TAG, "Reached inside callback");
+        	 isResumed = true;
+        	 onSessionStateChange(session, state, exception);
         }
     };
 }
-
-

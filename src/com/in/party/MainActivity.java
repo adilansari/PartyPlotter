@@ -1,34 +1,36 @@
 package com.in.party;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.app.Activity;
 
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
+import com.facebook.model.GraphUser;
 
 public class MainActivity extends Activity {
-	
+	public static HostActivity mHostActivity;
 	private boolean isResumed;
-	private static final String TAG = "com.in.party"; 
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "Reached inside oncreate");
+        Log.d("Himank", "Reached inside oncreate");
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+        mHostActivity = new HostActivity(getContentResolver());
 	}
-          
+	          
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "Inside OnResume");
+        Log.d("Himank", "Inside OnResume");
         isResumed = true;
         uiHelper.onResume();
         
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "Inside OnPause");
+        Log.d("Himank", "Inside OnPause");
         isResumed = false;
         uiHelper.onPause();
     }
@@ -62,12 +64,26 @@ public class MainActivity extends Activity {
     
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         // Only make changes if the activity is visible
+    	final Context context = this;
     	if (isResumed && state.isOpened()) {
     		// If the session state is open:
             // Show the authenticated fragment
             //showFragment(SELECTION, false);
-            Intent intent = new Intent(this, SelectionPreference.class);
-            startActivity(intent);
+    		Request request = Request.newMeRequest(Session.getActiveSession(), new Request.GraphUserCallback() {
+	            String user_ID;
+	    		@Override
+	            public void onCompleted(GraphUser user, Response response) {
+	                // If the response is successful
+	                if (user != null) {
+	                    user_ID = user.getId();//user
+	                    Intent intent = new Intent(context, SelectionPreference.class);
+	                    SelectionPreference.mUserId = user_ID;
+	                    SelectionPreference.mUserName = user.getFirstName() + " " + user.getLastName();
+	                    startActivity(intent);
+	                }      
+	            }
+	        }); 
+	    	Request.executeBatchAsync(request);
         }
     }
     
@@ -77,9 +93,10 @@ public class MainActivity extends Activity {
         @Override
         public void call(Session session, 
                 SessionState state, Exception exception) {
-        	 Log.d(TAG, "Reached inside callback");
         	 isResumed = true;
         	 onSessionStateChange(session, state, exception);
         }
     };
 }
+
+

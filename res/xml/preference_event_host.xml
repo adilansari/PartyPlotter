@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+   <EditTextPreference
+                android:key="pizza_edit"
+                android:title="Pizza"
+                android:summary="Click to update"
+                android:dialogTitle="Pizza"
+                android:defaultValue="0" />
+   <EditTextPreference
+                android:key="coke_edit"
+                android:title="Coke"
+                android:summary="Click to update"
+                android:dialogTitle="Coke"
+                android:defaultValue="0" />
+        
+  <EditTextPreference
+                android:key="pepsi_edit"
+                android:title="Pepsi"
+                android:summary="Click to update"
+                android:dialogTitle="Pizza"
+                android:defaultValue="0" />
+                        
+<EditTextPreference
+                android:key="beer_edit"
+                android:title="Beer"
+                android:summary="Click to update"
+                android:dialogTitle="Beer"
+                android:defaultValue="0" />
+</PreferenceScreen>

@@ -1,7 +1,5 @@
 package com.in.party;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,9 +11,11 @@ public class myHelper extends SQLiteOpenHelper {
 	public static final String DB_NAME = "partyStore.db";
 	public static int DB_VERSION= 1;
 	public static final String TABLE_NAME= "Store";
-	public static final String KEY_FIELD= "key";
-	public static final String VALUE_FIELD = "value";
-	public static final String CREATE_TABLE= "CREATE TABLE " + TABLE_NAME + "(" + KEY_FIELD + " TEXT PRIMARY KEY, " + VALUE_FIELD + " TEXT);";
+	public static final String KEY_FIELD= "eventId";
+	public static final String PIZZA_FIELD = "pizza";
+	public static final String BEER_FIELD = "beer";
+	public static final String DRINK_FIELD = "drink";
+	public static final String CREATE_TABLE= "CREATE TABLE " + TABLE_NAME + "(" + KEY_FIELD + " TEXT PRIMARY KEY, " + PIZZA_FIELD + " INTEGER, "+ DRINK_FIELD + " INTEGER, "+ BEER_FIELD+" INTEGER);";
 	public static final String TAG= "adil";
 
 	public myHelper(Context context) {

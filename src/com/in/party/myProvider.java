@@ -17,7 +17,7 @@ public class myProvider extends ContentProvider {
 	private static final String AUTHORITY = "party.events.provider";
 	private static final String BASE_PATH = myHelper.TABLE_NAME;
 	public static final Uri CONTENT_URI = Uri.parse("content://"+ AUTHORITY + "/" + BASE_PATH);
-	public static final String TAG= "adil";
+	public static final String TAG= "com.party.in";
 	
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
@@ -35,7 +35,7 @@ public class myProvider extends ContentProvider {
 	public Uri insert(Uri arg0, ContentValues arg1) {
 		db = myDb.getWritableDatabase();
 		ContentValues values= new ContentValues(arg1);
-		long rowId= db.replace(myHelper.TABLE_NAME, myHelper.VALUE_FIELD, values);
+		long rowId= db.replace(myHelper.TABLE_NAME, myHelper.PIZZA_FIELD, values);
 		if (rowId > 0) {
 			Uri newUri = ContentUris.withAppendedId(CONTENT_URI, rowId);
 			getContext().getContentResolver().notifyChange(newUri, null);
@@ -59,7 +59,7 @@ public class myProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri arg0, String[] arg1, String arg2, String[] arg3,String arg4) {
 		db= myDb.getReadableDatabase();
-        Cursor c= db.rawQuery("select * from "+myHelper.TABLE_NAME+" where key like '"+arg2+"'", null);		
+        Cursor c= db.rawQuery("select * from "+myHelper.TABLE_NAME+" where eventId like '"+arg2+"'", null);		
 		return c;
 	}
 
